@@ -1,0 +1,4 @@
+*.log
+/web_ui_config/open-webui/data/
+__pycache__/
+*.env

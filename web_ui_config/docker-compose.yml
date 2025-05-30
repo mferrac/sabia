@@ -1,0 +1,19 @@
+# Optional: Docker Compose for Sabia's WebUI
+
+version: '3.8'
+services:
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: open-webui-for-sabia
+    ports:
+      - "3000:8080"
+    volumes:
+      - open-webui:/app/backend/data
+    add_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: always
+    # environment:
+      # OLLAMA_BASE_URL: http://host.docker.internal:11434 # Example if Ollama runs on host
+
+volumes:
+  open-webui: {}

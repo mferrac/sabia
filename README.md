@@ -6,9 +6,10 @@ The core idea is to leverage open-source LLMs (via Ollama) and a user-friendly w
 
 ## Project Goals
 
-*   Set up a personal LLM server on a desktop PC.
-*   Enable access from other devices on the local network.
-*   Explore secure remote access options (e.g., Tailscale).
+*   Set up a personal LLM server (Ollama + Open WebUI) on a desktop PC (Windows, potentially using WSL2).
+*   Enable SSH access to the server PC from other devices on the local Wi-Fi.
+*   Enable access to the Open WebUI (via URL) and Ollama API (for programmatic requests) from other devices on the local network.
+*   Explore secure remote access options (e.g., Tailscale) for scenarios beyond the local Wi-Fi.
 *   Maintain data sovereignty by keeping all processing and data local.
 *   Investigate potential commercial applications for similar private AI solutions for businesses.
 
@@ -16,14 +17,21 @@ The core idea is to leverage open-source LLMs (via Ollama) and a user-friendly w
 
 This repository contains configurations and documentation to guide the setup process.
 
-1.  **Core LLM Server Setup (Desktop PC):**
+1.  **Core LLM Server Setup (Desktop PC - Windows, consider WSL2 for a Linux environment):**
     *   Install Ollama (see `ollama_setup/notes.md`).
+        *   Ensure Ollama is configured to be accessible from other devices on the network (e.g., by setting `OLLAMA_HOST=0.0.0.0` if running directly or ensuring Docker networking/WSL port forwarding allows access).
     *   Install a Web UI, preferably Open WebUI via Docker (see `web_ui_config/docker-compose.yml` and `web_ui_config/open-webui/config_notes.md`).
-2.  **Local Network Access:**
-    *   Configure firewall and network settings (see `docs/networking_setup.md`).
+        *   Ensure the Web UI is accessible from other devices on the network (similar network configuration as Ollama).
+2.  **Local Network Access & SSH:**
+    *   **SSH Setup:**
+        *   Install and configure an SSH server on the desktop PC (e.g., OpenSSH Server on Windows or within WSL).
+    *   **Firewall & Port Forwarding:**
+        *   Configure firewall rules on the server PC to allow incoming connections for SSH (typically port 22), Ollama (typically port 11434), and the Open WebUI (e.g., port 3000 or your chosen port).
+        *   If using WSL2 for Ollama/WebUI, set up port forwarding on the Windows host to forward traffic from the Windows IP to the WSL2 instance for the respective services.
+    *   Refer to `docs/networking_setup.md` for more detailed guidance.
 3.  **Security:**
-    *   Review security considerations (see `docs/security_policy.md`).
-4.  **(Optional) iPhone Access:**
+    *   Review security considerations, especially for SSH and network-exposed services (see `docs/security_policy.md`).
+4.  **(Optional) iPhone Access (Beyond Local Wi-Fi):**
     *   Set up remote access if needed (see `docs/iphone_access.md`).
 
 ## Repository Structure
